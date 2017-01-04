@@ -20,6 +20,7 @@ public class CommandButton : HiddableObject {
         if (this.Editor()) {
             gameObject.name = GetComponentInChildren<Text>().text;
             prerequisite = command.prerequisite;
+            conditions = command.conditions;
         } else {
             button.interactable = command.Available();
         }

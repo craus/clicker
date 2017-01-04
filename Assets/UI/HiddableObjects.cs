@@ -12,6 +12,6 @@ public class HiddableObjects : MonoBehaviour {
     }
 
     void Update() {
-        hiddableObjects.ForEach(b => b.gameObject.SetActive(SaveManager.instance.Possible(b.prerequisite, -1)));
+        hiddableObjects.ForEach(b => b.gameObject.SetActive(b.Show()));
     }
 }

@@ -6,11 +6,12 @@ using System.Linq;
 [ExecuteInEditMode]
 public class Command : MonoBehaviour {
     public List<ResourceChange> prerequisite;
-    public List<ResourceChange> cost;
+    public List<Condition> conditions;
     public List<ResourceChange> reward;
+    public List<ResourceChange> cost;
 
     public bool Unlocked() {
-        return SaveManager.instance.Possible(prerequisite, -1);
+        return SaveManager.instance.Possible(prerequisite, -1) && conditions.All(c => c.Satisfied());
     }
 
     public bool Available() {
@@ -34,5 +35,16 @@ public class Command : MonoBehaviour {
         if (this.Editor()) {
             gameObject.name = "Buy {0} for {1}".i(reward.ExtToString(), cost.ExtToString());
         }
+    }
+
+    [ContextMenu("Make once")]
+    void MakeOnce() {
+        var condition = new GameObject().AddComponent<Inequality>();
+        condition.variable = reward[0].resource;
+        condition.sample = reward[0].amount;
+        condition.less = true;
+        condition.strict = true;
+        condition.transform.SetParent(transform);
+        conditions.Add(condition);
     }
 }
