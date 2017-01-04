@@ -326,7 +326,7 @@ public static class Extensions {
         }
     }
 
-    public static string i(this string s, params object[] args) {
+    public static string i(this string s, params object[] args) { 
         return string.Format(s, args);
     }
 
@@ -334,7 +334,6 @@ public static class Extensions {
         if (mb.name != newName) {
             mb.name = newName;
 #if UNITY_EDITOR
-
             UnityEditor.Undo.RecordObject(mb, "Auto name change");
 #endif
         }

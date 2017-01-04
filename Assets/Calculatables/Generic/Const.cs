@@ -10,10 +10,7 @@ public class Const : CalculatableFloat
         return value;
     }
 
-    public override void Update() {
-        base.Update();
-        if (this.Editor()) {
-            this.SetName(value.ToString());
-        }
+    public override string BuildName() {
+        return value.ToString();
     }
 }

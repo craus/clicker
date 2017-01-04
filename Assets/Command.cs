@@ -5,8 +5,13 @@ using System.Linq;
 
 [ExecuteInEditMode]
 public class Command : MonoBehaviour {
+    public List<ResourceChange> prerequisite;
     public List<ResourceChange> cost;
     public List<ResourceChange> reward;
+
+    public bool Unlocked() {
+        return SaveManager.instance.Possible(prerequisite, -1);
+    }
 
     public bool Available() {
         return SaveManager.instance.Possible(cost, -1);
@@ -18,8 +23,10 @@ public class Command : MonoBehaviour {
     }
 
     public void TryExecute() {
-        if (Available()) {
+        if (Unlocked() && Available()) {
             Execute();
+        } else {
+            Debug.LogError("Locked command execution attempt!");
         }
     }
 

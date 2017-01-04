@@ -7,12 +7,13 @@ public class Pow : CalculatableFloat {
     public float multiplier = 1;
     public float shiftedY = 0;
     public float shiftedX = 0;
+    public float shiftedBase = 0;
 
     public CalculatableFloat _base;
     public CalculatableFloat power;
 
     public override float Calculate() {
-        var result = Mathf.Pow(_base, power + shiftedX);
+        var result = Mathf.Pow(_base + shiftedBase, power + shiftedX);
         result *= multiplier;
         result += shiftedY;
         if (floored) {
@@ -21,16 +22,13 @@ public class Pow : CalculatableFloat {
         return result;
     }
 
-    public override void Update() {
-        base.Update();
-        if (this.Editor()) {
-            this.SetName("{2}{0}^{1}{3}".i(
-                _base, 
-                shiftedX != 0 ? "({0}{1})".i(power, signedSummand(shiftedX)) : power.ToString(),
-                multiplier != 1 ? "{0}*".i(multiplier) : "", 
-                shiftedY != 0 ? signedSummand(shiftedY) : ""
-            ));
-        }
+    public override string BuildName() {
+        return "{2}{0}^{1}{3}".i(
+            shiftedBase != 0 ? "({0}{1})".i(_base, signedSummand(shiftedBase)) : _base.ToString(),
+            shiftedX != 0 ? "({0}{1})".i(power, signedSummand(shiftedX)) : power.ToString(),
+            multiplier != 1 ? "{0}*".i(multiplier) : "",
+            shiftedY != 0 ? signedSummand(shiftedY) : ""
+        );
     }
 
     [ContextMenu("AddShiftedX")]

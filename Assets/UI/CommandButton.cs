@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 [ExecuteInEditMode]
-public class CommandButton : MonoBehaviour {
+public class CommandButton : HiddableObject {
     public Command command;
     public Button button;
 
@@ -19,6 +19,7 @@ public class CommandButton : MonoBehaviour {
     void Update() {
         if (this.Editor()) {
             gameObject.name = GetComponentInChildren<Text>().text;
+            prerequisite = command.prerequisite;
         } else {
             button.interactable = command.Available();
         }
