@@ -3,20 +3,16 @@ using System.Collections;
 
 [ExecuteInEditMode]
 public class Derivative : TimedProcess {
-    public Resource derivative; 
-    public Resource resource;
-    public float speed = 1;
+    public CalculatableFloat derivative; 
+    public ResourceChange change;
 
     void Update() {
         if (Extensions.Editor()) {
-            if (this.resource == null) {
-                this.resource = GetComponent<Resource>();
-            }
-            gameObject.name = "{0} -> {1}".i(derivative.name, resource.name);
+            gameObject.name = "{0} -> {1}".i(derivative.name, change);
         }
     }
 
     public override void OnTickPassed() {
-        resource.value += derivative.value * speed;
+        change.Apply(derivative.Calculate() * TimeManager.TICK_TIME);
     }
 }

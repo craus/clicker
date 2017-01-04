@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
+[ExecuteInEditMode]
 public class CommandButton : MonoBehaviour {
     public Command command;
     public Button button;
@@ -16,6 +17,10 @@ public class CommandButton : MonoBehaviour {
     }
 
     void Update() {
-        button.interactable = command.Available();
+        if (this.Editor()) {
+            gameObject.name = GetComponentInChildren<Text>().text;
+        } else {
+            button.interactable = command.Available();
+        }
     }
 }

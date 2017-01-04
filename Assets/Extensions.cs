@@ -5,6 +5,10 @@ using System;
 using UnityEngine.UI;
 using System.Linq;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public static class Extensions {
 
     public static float Modulo(float x, float y) {
@@ -307,7 +311,7 @@ public static class Extensions {
 
     public static bool Editor() {
 #if UNITY_EDITOR
-        return !UnityEditor.EditorApplication.isPlaying;
+        return !EditorApplication.isPlaying;
 #else 
         return false;
 #endif
@@ -324,5 +328,15 @@ public static class Extensions {
 
     public static string i(this string s, params object[] args) {
         return string.Format(s, args);
+    }
+
+    public static void SetName(this MonoBehaviour mb, string newName) {
+        if (mb.name != newName) {
+            mb.name = newName;
+#if UNITY_EDITOR
+
+            UnityEditor.Undo.RecordObject(mb, "Auto name change");
+#endif
+        }
     }
 }

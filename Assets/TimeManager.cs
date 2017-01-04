@@ -5,7 +5,7 @@ using System;
 public class TimeManager : MonoBehaviour {
     public event Action<int> onTicksPassed;
 
-    const double TICK_TIME = 0.01f;
+    public const float TICK_TIME = 0.01f;
 
     public DateTime lastUpdateTime;
 

@@ -7,8 +7,11 @@ public class Resource : CalculatableFloat {
     public float value;
     public float backup;
 
-    public void Update() {
-        gameObject.name = name;
+    public override void Update() {
+        base.Update();
+        if (this.Editor()) {
+            gameObject.name = name;
+        }
     }
 
     public override float Calculate() {

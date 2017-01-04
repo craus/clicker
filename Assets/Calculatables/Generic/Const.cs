@@ -10,9 +10,10 @@ public class Const : CalculatableFloat
         return value;
     }
 
-    void Update() {
+    public override void Update() {
+        base.Update();
         if (this.Editor()) {
-            gameObject.name = value.ToString();
+            this.SetName(value.ToString());
         }
     }
 }

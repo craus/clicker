@@ -12,7 +12,7 @@ public class Pow : CalculatableFloat {
     public CalculatableFloat power;
 
     public override float Calculate() {
-        var result = Mathf.Pow(_base+shiftedX, power);
+        var result = Mathf.Pow(_base, power + shiftedX);
         result *= multiplier;
         result += shiftedY;
         if (floored) {
@@ -21,9 +21,21 @@ public class Pow : CalculatableFloat {
         return result;
     }
 
-    void Update() {
+    public override void Update() {
+        base.Update();
         if (this.Editor()) {
-            gameObject.name = "{2}{0}^{1}{3}".i(_base, power, multiplier != 1 ? "{0}*".i(multiplier) : "", shiftedY != 0 ? "+{0}".i(shiftedY) : "");
+            this.SetName("{2}{0}^{1}{3}".i(
+                _base, 
+                shiftedX != 0 ? "({0}{1})".i(power, signedSummand(shiftedX)) : power.ToString(),
+                multiplier != 1 ? "{0}*".i(multiplier) : "", 
+                shiftedY != 0 ? signedSummand(shiftedY) : ""
+            ));
         }
+    }
+
+    [ContextMenu("AddShiftedX")]
+    public void AddShiftedX() {
+        shiftedX += 1;
+        UnityEditor.Undo.RecordObject(this, "Shifted X");
     }
 }
