@@ -10,7 +10,7 @@ public class Sum : CalculatableFloat {
     public float shiftedY;
 
     public override float Calculate() {
-        return summands.Aggregate(1f, (acc, x) => acc + x);
+        return summands.Aggregate(0f, (acc, x) => acc + x) + shiftedY;
     }
     public override string BuildName() {
         return summands.ExtToString("+", "{0}");
